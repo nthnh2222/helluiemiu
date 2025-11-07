@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>iêm iu ói có yêu ank Bi hong? 💞</title>
+
+<!-- Font đẹp, không lỗi -->
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&display=swap" rel="stylesheet">
+
+<style>
+  body {
+    background: radial-gradient(circle at center, #ffb6c1, #ff8fab);
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: "Montserrat", sans-serif;
+    overflow: hidden;
+    position: relative;
+  }
+
+  h1 {
+    font-size: 2rem;
+    color: #fff;
+    text-shadow: 0 0 10px #ff2d75;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+
+  .buttons {
+    display: flex;
+    gap: 2rem;
+  }
+
+  button {
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+
+  #yes {
+    background-color: #ff4da6;
+    color: white;
+    box-shadow: 0 0 10px #ff80bf;
+  }
+
+  #yes:hover {
+    background-color: #ff1f8f;
+    transform: scale(1.05);
+  }
+
+  #no {
+    background-color: #999;
+    color: white;
+    position: absolute;
+  }
+
+  canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+  }
+
+  .heart {
+    position: absolute;
+    color: #ff4da6;
+    font-size: 20px;
+    animation: float 6s linear infinite;
+    opacity: 0.8;
+  }
+
+  @keyframes float {
+    0% {
+      transform: translateY(100vh) scale(0.5);
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(-10vh) scale(1);
+      opacity: 0;
+    }
+  }
+</style>
+</head>
+<body>
+  <h1>iêm iu ói 💕 iêm có yêu ank Bi honggg?</h1>
+  <div class="buttons">
+    <button id="yes">Yes 💖</button>
+    <button id="no">No 😢</button>
+  </div>
+
+  <canvas id="fireworks"></canvas>
+
+  <script>
+    const noBtn = document.getElementById("no");
+    const yesBtn = document.getElementById("yes");
+    const canvas = document.getElementById("fireworks");
+    const ctx = canvas.getContext("2d");
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    // Make NO button run away
+    noBtn.addEventListener("mouseover", () => {
+      const x = Math.random() * (window.innerWidth - 100);
+      const y = Math.random() * (window.innerHeight - 50);
+      noBtn.style.left = `${x}px`;
+      noBtn.style.top = `${y}px`;
+    });
+
+    // Fireworks effect when YES clicked
+    yesBtn.addEventListener("click", () => {
+      startFireworks();
+      document.querySelector("h1").innerText = "ank Bi cũm yêu iêm iu nhìuuuuuuuuu 💋💋💋";
+      yesBtn.style.display = "none";
+      noBtn.style.display = "none";
+    });
+
+    // Fireworks logic
+    let particles = [];
+    function startFireworks() {
+      const count = 120;
+      for (let i = 0; i < count; i++) {
+        particles.push({
+          x: canvas.width / 2,
+          y: canvas.height / 2,
+          speedX: Math.random() * 6 - 3,
+          speedY: Math.random() * -6 - 2,
+          color: `hsl(${Math.random() * 360}, 100%, 70%)`,
+          size: Math.random() * 3 + 1,
+          life: 100
+        });
+      }
+      animate();
+    }
+
+    function drawHeart(x, y, size, color) {
+      ctx.save();
+      ctx.translate(x, y);
+      ctx.scale(size, size);
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.bezierCurveTo(0, -3, -3, -5, -5, -2);
+      ctx.bezierCurveTo(-7, 1, 0, 5, 0, 8);
+      ctx.bezierCurveTo(0, 5, 7, 1, 5, -2);
+      ctx.bezierCurveTo(3, -5, 0, -3, 0, 0);
+      ctx.fillStyle = color;
+      ctx.fill();
+      ctx.restore();
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach((p, i) => {
+        p.x += p.speedX;
+        p.y += p.speedY;
+        p.speedY += 0.05;
+        p.life--;
+        drawHeart(p.x, p.y, 0.8, p.color);
+        if (p.life <= 0) particles.splice(i, 1);
+      });
+      if (particles.length > 0) requestAnimationFrame(animate);
+    }
+
+    // Floating hearts around the background
+    function createFloatingHearts() {
+      const heart = document.createElement("div");
+      heart.classList.add("heart");
+      heart.textContent = "💖";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.animationDuration = (3 + Math.random() * 5) + "s";
+      heart.style.fontSize = (15 + Math.random() * 25) + "px";
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 8000);
+    }
+
+    setInterval(createFloatingHearts, 300);
+
+    window.addEventListener("resize", () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+  </script>
+</body>
+</html>
